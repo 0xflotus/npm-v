@@ -1,19 +1,18 @@
 const execSync = require('child_process').execSync
 
 module.exports = function npmVersion() {
-  var semver, chunks
   try {
-    semver = execSync('npm -v', { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] })
-    chunks = semver.split('.').map(Number)
+    var semver = execSync('npm -v', { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] })
+    var [major, minor, patch] = semver.split('.').map(Number)
   }
   catch (err) {
     semver = ''
-    chunks = [null, null, null]
+    [major, minor, patch] = [null, null, null]
   }
   return {
     version: semver,
-    major: chunks[0],
-    minor: chunks[1],
-    patch: chunks[2]
+    major,
+    minor,
+    patch
   }
 }
